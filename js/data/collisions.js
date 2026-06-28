@@ -18,5 +18,13 @@ Array.prototype.parse2D = function () {
   return rows;
 };
 
+class CollisionBlock {}
+
 const parsedCollisions = collisionLevel1.parse2D();
-console.log(parsedCollisions);
+parsedCollisions.forEach((row) => {
+  row.forEach((symbol) => {
+    if (symbol === 292) {
+      // push a new collision into the collisionblocks array
+    }
+  });
+});
