@@ -31,6 +31,9 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height);
 
   backgroundLevel1.draw();
+  collisionBlocks.forEach((collisionBlock) => {
+    collisionBlock.draw();
+  });
 
   player.velocity.x = 0;
   if (keys.d.pressed) player.velocity.x = 5;

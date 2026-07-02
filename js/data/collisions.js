@@ -18,13 +18,34 @@ Array.prototype.parse2D = function () {
   return rows;
 };
 
-class CollisionBlock {}
+class CollisionBlock {
+  constructor({ position }) {
+    this.position = position;
+    this.width = 64;
+    this.height = 64;
+  }
+
+  draw() {
+    c.fillStyle = "rgba(255, 0, 0, 0.5)";
+    c.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+}
+
+const collisionBlocks = [];
 
 const parsedCollisions = collisionLevel1.parse2D();
-parsedCollisions.forEach((row) => {
-  row.forEach((symbol) => {
+parsedCollisions.forEach((row, y) => {
+  row.forEach((symbol, x) => {
     if (symbol === 292) {
       // push a new collision into the collisionblocks array
+      collisionBlocks.push(
+        new CollisionBlock({
+          position: {
+            x: x * 64,
+            y: y * 64,
+          },
+        }),
+      );
     }
   });
 });
