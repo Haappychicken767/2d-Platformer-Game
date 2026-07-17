@@ -44,6 +44,14 @@ class Player extends Sprite {
     this.checkForVerticalCollisions();
   }
 
+  switchSprite(name) {
+    if (this.image === this.animations[name].image) return;
+    this.currentFrame = 0;
+    this.image = this.animations[name].image;
+    this.frameRate = this.animations[name].frameRate;
+    this.frameBuffer = this.animations[name].frameBuffer;
+  }
+
   updateHitbox() {
     this.hitbox = {
       position: {
