@@ -47,6 +47,15 @@ class Player extends Sprite {
   handleInput(keys) {
     if (this.preventInput) return;
     this.velocity.x = 0;
+
+    //Checking if the player is jumping
+    /*if (this.velocity.y < 0) {
+      this.switchSprite("Jump");
+    }
+
+    if (keys.d.pressed) this.velocity.x = 5;
+    else if (keys.a.pressed) this.velocity.x = -5;*/
+
     if (keys.d.pressed) {
       this.switchSprite("runRight");
       this.velocity.x = 5;

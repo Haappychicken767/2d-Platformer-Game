@@ -2,7 +2,7 @@ window.addEventListener("keydown", (event) => {
   if (player.preventInput) return;
   switch (event.key) {
     // Player jump
-    case "w":
+    case "s":
       for (let i = 0; i < doors.length; i++) {
         const door = doors[i];
 
@@ -21,6 +21,9 @@ window.addEventListener("keydown", (event) => {
           return;
         }
       }
+      break;
+
+    case "w":
       if (player.velocity.y === 0) {
         player.velocity.y = -25;
       }

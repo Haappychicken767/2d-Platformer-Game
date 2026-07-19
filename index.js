@@ -36,6 +36,13 @@ const player = new Player({
       imageSrc: "./img/king/runLeft.png",
     },
 
+    /*Jump: {
+      frameRate: 1,
+      frameBuffer: 2,
+      loop: false,
+      imageSrc: "./img/king/Jump.png",
+    },*/
+
     enterDoor: {
       frameRate: 8,
       frameBuffer: 4,
