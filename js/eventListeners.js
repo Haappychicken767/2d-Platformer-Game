@@ -24,9 +24,11 @@ window.addEventListener("keydown", (event) => {
       break;
 
     case "w":
-      if (player.velocity.y === 0) {
-        player.velocity.y = -25;
-      }
+      if (player.isJumping || player.velocity.y !== 0) break;
+
+      player.velocity.y = -25;
+      player.isJumping = true;
+      player.switchSprite("jump");
       break;
 
     // Move player to left

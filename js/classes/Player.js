@@ -15,6 +15,7 @@ class Player extends Sprite {
       bottom: this.position.y + this.height,
     };
     this.gravity = 1;
+    this.isJumping = false;
 
     this.collisionBlocks = collisionBlocks;
   }
@@ -46,24 +47,23 @@ class Player extends Sprite {
 
   handleInput(keys) {
     if (this.preventInput) return;
-    this.velocity.x = 0;
-
-    //Checking if the player is jumping
-    /*if (this.velocity.y < 0) {
-      this.switchSprite("Jump");
-    }
-
-    if (keys.d.pressed) this.velocity.x = 5;
-    else if (keys.a.pressed) this.velocity.x = -5;*/
 
     if (keys.d.pressed) {
-      this.switchSprite("runRight");
       this.velocity.x = 5;
       this.lastDirection = "right";
     } else if (keys.a.pressed) {
-      this.switchSprite("runLeft");
       this.velocity.x = -5;
       this.lastDirection = "left";
+    } else {
+      this.velocity.x = 0;
+    }
+
+    if (this.isJumping) {
+      this.switchSprite("jump");
+    } else if (keys.d.pressed) {
+      this.switchSprite("runRight");
+    } else if (keys.a.pressed) {
+      this.switchSprite("runLeft");
     } else {
       if (this.lastDirection === "left") this.switchSprite("idleLeft");
       else this.switchSprite("idleRight");
@@ -77,6 +77,7 @@ class Player extends Sprite {
     this.frameRate = this.animations[name].frameRate;
     this.frameBuffer = this.animations[name].frameBuffer;
     this.loop = this.animations[name].loop;
+    this.scale = this.animations[name].scale || 1;
     this.currentAnimation = this.animations[name];
   }
 
@@ -154,6 +155,7 @@ class Player extends Sprite {
 
         if (this.velocity.y > 0) {
           this.velocity.y = 0;
+          this.isJumping = false;
           const offset =
             this.hitbox.position.y - this.position.y + this.hitbox.height;
           this.position.y = collisionBlock.position.y - offset - 0.01;

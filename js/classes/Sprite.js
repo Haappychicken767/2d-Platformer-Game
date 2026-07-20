@@ -7,6 +7,7 @@ class Sprite {
     frameBuffer = 2,
     loop = true,
     autoplay = true,
+    scale = 1,
   }) {
     this.position = position;
     this.image = new Image();
@@ -24,6 +25,7 @@ class Sprite {
     this.animations = animations;
     this.loop = loop;
     this.autoplay = autoplay;
+    this.scale = scale;
     this.currentAnimation;
 
     if (this.animations) {
@@ -53,8 +55,8 @@ class Sprite {
       cropBox.height,
       this.position.x,
       this.position.y,
-      this.width,
-      this.height,
+      this.width * this.scale,
+      this.height * this.scale,
     );
 
     this.updateFrames();
