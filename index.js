@@ -41,7 +41,7 @@ const player = new Player({
       frameBuffer: 2,
       loop: false,
       imageSrc: "./img/king/Jump.png",
-      scale: 2,
+      //scale: 2.1,
     },
 
     enterDoor: {
@@ -74,8 +74,11 @@ const player = new Player({
 canvas.width = 1024;
 canvas.height = 576;
 
-let level = 1;
+let level = 0;
 let levels = {
+  0: {
+    init: () => {},
+  },
   1: {
     init: () => {
       parsedCollisions = collisionsLevel1.parse2D();
@@ -199,7 +202,7 @@ const overlay = {
 };
 function animate() {
   window.requestAnimationFrame(animate);
-  c.fillStyle = "white";
+  c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
 
   background.draw();
@@ -222,5 +225,22 @@ function animate() {
   c.restore();
 }
 
-levels[level].init();
-animate();
+//levels[level].init();
+//animate();
+
+const startBtn = document.querySelector("#start-btn");
+const gameTitle = document.querySelector("#game-title");
+
+startBtn.addEventListener("click", () => {
+  gsap.to(gameTitle, {
+    opacity: 0,
+    duration: 0.5,
+    onComplete: () => {
+      gameTitle.style.display = "none";
+
+      level = 1;
+      levels[level].init();
+      animate();
+    },
+  });
+});

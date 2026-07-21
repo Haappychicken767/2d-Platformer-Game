@@ -1,0 +1,59 @@
+#game-container {
+  position: relative;
+  width: 1024px;
+  height: 576px;
+  margin: 0 auto;
+}
+
+#game-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("./img/background.gif");
+  background-size: cover;
+  background-position: center;
+  background-color: black;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+#title-img {
+  width: 400px;
+  margin-bottom: 20px;
+}
+
+#start-btn {
+  background-color: #fca048;
+  border: 4px solid #4a2712;
+  color: #4a2712;
+  font-weight: 900;
+  font-size: 1.5rem;
+  padding: 15px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-family: "Courier New", Courier, monospace;
+
+  box-shadow: 0 6px 0 #4a2712;
+  transition:
+    transform 0.1s,
+    box-shadow 0.1s,
+    background-color 0.2s;
+}
+
+#start-btn:hover {
+  background-color: #ffb56b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 #412712;
+}
+
+#start-btn:active {
+  transform: translateY(6px);
+  box-shadow: 0 0 0 #4a2712;
+}
