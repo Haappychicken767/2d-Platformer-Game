@@ -1,10 +1,15 @@
-class Player extends Sprite {
-  constructor({ collisionBlocks = [], imageSrc, frameRate, animations, loop }) {
-    super({ imageSrc, frameRate, animations, loop });
-    this.position = {
-      x: 200,
-      y: 200,
-    };
+class Enemy extends Sprite {
+  constructor({
+    collisionBlocks = [],
+    imageSrc,
+    frameRate,
+    animations,
+    loop,
+    scale = 1,
+    position = {},
+  }) {
+    super({ imageSrc, frameRate, animations, loop, scale });
+    this.position = position;
 
     this.velocity = {
       x: 0,
@@ -14,17 +19,13 @@ class Player extends Sprite {
     this.sides = {
       bottom: this.position.y + this.height,
     };
+
     this.gravity = 1;
-    this.isJumping = false;
 
     this.collisionBlocks = collisionBlocks;
   }
 
   update() {
-    //the blue box around the player
-    //c.fillStyle = "rgba(0, 0, 255, 0.5)";
-    //c.fillRect(this.position.x, this.position.y, this.width, this.height);
-
     this.position.x += this.velocity.x;
 
     this.updateHitbox();
@@ -34,38 +35,15 @@ class Player extends Sprite {
 
     this.updateHitbox();
 
-    // visible hitbox
-    /* c.fillRect(
+    //Makes a visible hitbox
+    /*c.fillRect(
       this.hitbox.position.x,
       this.hitbox.position.y,
       this.hitbox.width,
       this.hitbox.height,
-    ); */
+    );*/
 
     this.checkForVerticalCollisions();
-  }
-
-  handleInput(keys) {
-    if (this.preventInput) return;
-
-    if (keys.d.pressed) {
-      this.velocity.x = 5;
-      this.lastDirection = "right";
-    } else if (keys.a.pressed) {
-      this.velocity.x = -5;
-      this.lastDirection = "left";
-    } else {
-      this.velocity.x = 0;
-    }
-
-    if (keys.d.pressed) {
-      this.switchSprite("runRight");
-    } else if (keys.a.pressed) {
-      this.switchSprite("runLeft");
-    } else {
-      if (this.lastDirection === "left") this.switchSprite("idleLeft");
-      else this.switchSprite("idleRight");
-    }
   }
 
   switchSprite(name) {
@@ -82,11 +60,11 @@ class Player extends Sprite {
   updateHitbox() {
     this.hitbox = {
       position: {
-        x: this.position.x + 58,
-        y: this.position.y + 34,
+        x: this.position.x + 20,
+        y: this.position.y + 16,
       },
-      width: 50,
-      height: 53,
+      width: 40,
+      height: 40,
     };
   }
 
@@ -153,7 +131,6 @@ class Player extends Sprite {
 
         if (this.velocity.y > 0) {
           this.velocity.y = 0;
-          this.isJumping = false;
           const offset =
             this.hitbox.position.y - this.position.y + this.hitbox.height;
           this.position.y = collisionBlock.position.y - offset - 0.01;

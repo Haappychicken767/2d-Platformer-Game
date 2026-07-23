@@ -3,6 +3,8 @@ window.addEventListener("keydown", (event) => {
   switch (event.key) {
     // Player jump
     case "s":
+      if (!player.hitbox) return;
+
       for (let i = 0; i < doors.length; i++) {
         const door = doors[i];
 
@@ -28,7 +30,7 @@ window.addEventListener("keydown", (event) => {
 
       player.velocity.y = -25;
       player.isJumping = true;
-      player.switchSprite("jump");
+      //player.switchSprite("jump");
       break;
 
     // Move player to left

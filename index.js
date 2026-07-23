@@ -5,6 +5,8 @@ let parsedCollisions;
 let collisionBlocks;
 let background;
 let doors;
+let enemies = [];
+
 const player = new Player({
   imageSrc: "./img/king/idle.png",
   frameRate: 11,
@@ -36,13 +38,13 @@ const player = new Player({
       imageSrc: "./img/king/runLeft.png",
     },
 
-    jump: {
+    /*jump: {
       frameRate: 1,
       frameBuffer: 2,
       loop: false,
       imageSrc: "./img/king/Jump.png",
       //scale: 2.1,
-    },
+    },*/
 
     enterDoor: {
       frameRate: 8,
@@ -110,6 +112,29 @@ let levels = {
           autoplay: false,
         }),
       ];
+
+      enemies = [
+        new Enemy({
+          //position: { x: 900, y: 200 },
+          collisionBlocks: collisionBlocks,
+          imageSrc: "./img/03-Pig/Idle (34x28).png",
+          frameRate: 11,
+          scale: 2,
+          position: {
+            x: 600,
+            y: 200,
+          },
+
+          animations: {
+            idleLeft: {
+              frameRate: 11,
+              frameBuffer: 2,
+              loop: true,
+              imageSrc: "./img/03-Pig/Idle (34x28).png",
+            },
+          },
+        }),
+      ];
     },
   },
   2: {
@@ -119,6 +144,8 @@ let levels = {
       player.collisionBlocks = collisionBlocks;
       player.position.x = 76;
       player.position.y = 140;
+
+      enemies = [];
 
       if (player.currentAnimation) {
         player.currentAnimation.isActive = false;
@@ -213,6 +240,14 @@ function animate() {
   doors.forEach((door) => {
     door.draw();
   });
+
+  //Drawing the enemies
+  if (enemies && enemies.length > 0) {
+    enemies.forEach((enemy) => {
+      enemy.update();
+      enemy.draw();
+    });
+  }
 
   player.handleInput(keys);
   player.draw();
