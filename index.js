@@ -7,6 +7,28 @@ let background;
 let doors;
 let enemies = [];
 
+function createPig(xPos, yPos, collisionBlocks) {
+  return new Enemy({
+    collisionBlocks: collisionBlocks,
+    imageSrc: "./img/03-Pig/Idle (34x28).png",
+    frameRate: 11,
+    scale: 2,
+    position: {
+      x: xPos,
+      y: yPos,
+    },
+
+    animations: {
+      idleLeft: {
+        frameRate: 11,
+        frameBuffer: 2,
+        loop: true,
+        imageSrc: "./img/03-Pig/Idle (34x28).png",
+      },
+    },
+  });
+}
+
 const player = new Player({
   imageSrc: "./img/king/idle.png",
   frameRate: 11,
@@ -36,6 +58,24 @@ const player = new Player({
       frameBuffer: 4,
       loop: true,
       imageSrc: "./img/king/runLeft.png",
+    },
+
+    attackRight: {
+      frameRate: 3,
+      frameBuffer: 8,
+      loop: false,
+      imageSrc: "./img/king/Attack (78x58).png",
+      scale: 2,
+      offset: { x: 40, y: 10 },
+    },
+
+    attackLeft: {
+      frameRate: 3,
+      frameBuffer: 8,
+      loop: false,
+      imageSrc: "./img/king/attackLeft.png",
+      scale: 2,
+      offset: { x: 90, y: 10 },
     },
 
     /*jump: {
@@ -115,7 +155,6 @@ let levels = {
 
       enemies = [
         new Enemy({
-          //position: { x: 900, y: 200 },
           collisionBlocks: collisionBlocks,
           imageSrc: "./img/03-Pig/Idle (34x28).png",
           frameRate: 11,
@@ -145,7 +184,10 @@ let levels = {
       player.position.x = 76;
       player.position.y = 140;
 
-      enemies = [];
+      enemies = [
+        createPig(500, 400, collisionBlocks),
+        createPig(276, 140, collisionBlocks),
+      ];
 
       if (player.currentAnimation) {
         player.currentAnimation.isActive = false;

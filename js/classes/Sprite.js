@@ -8,6 +8,7 @@ class Sprite {
     loop = true,
     autoplay = true,
     scale = 1,
+    offset = { x: 0, y: 0 },
   }) {
     this.position = position;
     this.image = new Image();
@@ -26,6 +27,7 @@ class Sprite {
     this.loop = loop;
     this.autoplay = autoplay;
     this.scale = scale;
+    this.offset = offset;
     this.currentAnimation;
 
     if (this.animations) {
@@ -53,8 +55,8 @@ class Sprite {
       cropBox.position.y,
       cropBox.width,
       cropBox.height,
-      this.position.x,
-      this.position.y,
+      this.position.x - this.offset.x,
+      this.position.y - this.offset.y,
       this.width * this.scale,
       this.height * this.scale,
     );

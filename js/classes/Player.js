@@ -48,6 +48,18 @@ class Player extends Sprite {
   handleInput(keys) {
     if (this.preventInput) return;
 
+    //Guard clause so that it doesn't override the attack animation
+    if (
+      //checks attackRight
+      (this.image === this.animations.attackRight.image &&
+        this.currentFrame < this.animations.attackRight.frameRate - 1) ||
+      //checks attackLeft
+      (this.image === this.animations.attackLeft.image &&
+        this.currentFrame < this.animations.attackLeft.frameRate - 1)
+    ) {
+      return;
+    }
+
     if (keys.d.pressed) {
       this.velocity.x = 5;
       this.lastDirection = "right";
@@ -75,7 +87,15 @@ class Player extends Sprite {
     this.frameRate = this.animations[name].frameRate;
     this.frameBuffer = this.animations[name].frameBuffer;
     this.loop = this.animations[name].loop;
-    //this.scale = this.animations[name].scale || 1;
+
+    //recalculate dimensions for crop box, for different spritesheets
+    this.width = this.image.width / this.frameRate;
+    this.height = this.image.height;
+
+    //for uneven sized spritesheets
+    this.scale = this.animations[name].scale || 1;
+    this.offset = this.animations[name].offset || { x: 0, y: 0 };
+
     this.currentAnimation = this.animations[name];
   }
 

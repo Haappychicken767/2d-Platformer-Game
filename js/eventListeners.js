@@ -25,6 +25,18 @@ window.addEventListener("keydown", (event) => {
       }
       break;
 
+    case "h":
+      if (!player.hitbox) return;
+
+      if (player.lastDirection === "left") {
+        player.switchSprite("attackLeft");
+        player.velocity.x = -10; //Dashes to the left
+      } else {
+        player.switchSprite("attackRight");
+        player.velocity.x = 10; //Dashes to the right
+      }
+      break;
+
     case "w":
       if (player.isJumping || player.velocity.y !== 0) break;
 
