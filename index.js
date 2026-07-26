@@ -66,7 +66,7 @@ const player = new Player({
       loop: false,
       imageSrc: "./img/king/Attack (78x58).png",
       scale: 2,
-      offset: { x: 40, y: 10 },
+      offset: { x: 0, y: 10 },
     },
 
     attackLeft: {
@@ -75,7 +75,7 @@ const player = new Player({
       loop: false,
       imageSrc: "./img/king/attackLeft.png",
       scale: 2,
-      offset: { x: 90, y: 10 },
+      offset: { x: 30, y: 10 },
     },
 
     /*jump: {
