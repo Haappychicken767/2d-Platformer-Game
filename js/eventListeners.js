@@ -26,14 +26,22 @@ window.addEventListener("keydown", (event) => {
       break;
 
     case "h":
-      if (!player.hitbox) return;
+      if (!player.hitbox || player.isAttacking || player.attackCooldown) return;
+
+      player.isAttacking = true;
+      player.attackCooldown = true;
+
+      //Resets the cooldown in 1.5 secs
+      setTimeout(() => {
+        player.attackCooldown = false;
+      }, 1500);
 
       if (player.lastDirection === "left") {
         player.switchSprite("attackLeft");
-        player.velocity.x = -10; //Dashes to the left
+        player.velocity.x = -15; //Dashes to the left
       } else {
         player.switchSprite("attackRight");
-        player.velocity.x = 10; //Dashes to the right
+        player.velocity.x = 15; //Dashes to the right
       }
       break;
 

@@ -25,6 +25,18 @@ function createPig(xPos, yPos, collisionBlocks) {
         loop: true,
         imageSrc: "./img/03-Pig/Idle (34x28).png",
       },
+      hit: {
+        frameRate: 2,
+        frameBuffer: 16,
+        loop: false,
+        imageSrc: "./img/03-Pig/Hit (34x28).png",
+      },
+      dead: {
+        frameRate: 4,
+        frameBuffer: 8,
+        loop: false,
+        imageSrc: "./img/03-Pig/Dead (34x28).png",
+      },
     },
   });
 }
@@ -66,7 +78,10 @@ const player = new Player({
       loop: false,
       imageSrc: "./img/king/Attack (78x58).png",
       scale: 2,
-      offset: { x: 0, y: 10 },
+      offset: { x: -5, y: 10 },
+      onComplete: () => {
+        player.isAttacking = false;
+      },
     },
 
     attackLeft: {
@@ -76,6 +91,9 @@ const player = new Player({
       imageSrc: "./img/king/attackLeft.png",
       scale: 2,
       offset: { x: 30, y: 10 },
+      onComplete: () => {
+        player.isAttacking = false;
+      },
     },
 
     /*jump: {
@@ -153,27 +171,7 @@ let levels = {
         }),
       ];
 
-      enemies = [
-        new Enemy({
-          collisionBlocks: collisionBlocks,
-          imageSrc: "./img/03-Pig/Idle (34x28).png",
-          frameRate: 11,
-          scale: 2,
-          position: {
-            x: 600,
-            y: 200,
-          },
-
-          animations: {
-            idleLeft: {
-              frameRate: 11,
-              frameBuffer: 2,
-              loop: true,
-              imageSrc: "./img/03-Pig/Idle (34x28).png",
-            },
-          },
-        }),
-      ];
+      enemies = [createPig(600, 200, collisionBlocks)];
     },
   },
   2: {
@@ -294,6 +292,12 @@ function animate() {
   player.handleInput(keys);
   player.draw();
   player.update();
+
+  //Calling combat logic
+  handleCombat(player, enemies);
+
+  //Safely delete the enemies that are marked for deletion
+  enemies = enemies.filter((enemy) => !enemy.markedForDeletion);
 
   c.save();
   c.globalAlpha = overlay.opacity;

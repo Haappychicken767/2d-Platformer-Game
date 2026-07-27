@@ -5,17 +5,18 @@ class Player extends Sprite {
       x: 200,
       y: 200,
     };
-
     this.velocity = {
       x: 0,
       y: 0,
     };
-
     this.sides = {
       bottom: this.position.y + this.height,
     };
     this.gravity = 1;
     this.isJumping = false;
+
+    this.isAttacking = false;
+    this.attackCooldown = false;
 
     this.collisionBlocks = collisionBlocks;
   }
@@ -48,6 +49,13 @@ class Player extends Sprite {
   handleInput(keys) {
     if (this.preventInput) return;
 
+    //Smooth dash deceleration
+    if (this.isAttacking) {
+      this.velocity.x *= 0.85;
+      return;
+    }
+
+    /*
     //Guard clause so that it doesn't override the attack animation
     if (
       //checks attackRight
@@ -58,7 +66,7 @@ class Player extends Sprite {
         this.currentFrame < this.animations.attackLeft.frameRate - 1)
     ) {
       return;
-    }
+    }*/
 
     if (keys.d.pressed) {
       this.velocity.x = 5;
@@ -87,16 +95,17 @@ class Player extends Sprite {
     this.frameRate = this.animations[name].frameRate;
     this.frameBuffer = this.animations[name].frameBuffer;
     this.loop = this.animations[name].loop;
-
     //recalculate dimensions for crop box, for different spritesheets
     this.width = this.image.width / this.frameRate;
     this.height = this.image.height;
-
     //for uneven sized spritesheets
     this.scale = this.animations[name].scale || 1;
     this.offset = this.animations[name].offset || { x: 0, y: 0 };
-
     this.currentAnimation = this.animations[name];
+
+    if (this.currentAnimation) {
+      this.currentAnimation.isActive = false;
+    }
   }
 
   updateHitbox() {
@@ -106,6 +115,20 @@ class Player extends Sprite {
         y: this.position.y + 34,
       },
       width: 50,
+      height: 53,
+    };
+
+    //Creating an attack hitbox that flips to left or right
+    const attackBoxWidth = 60;
+    this.attackBox = {
+      position: {
+        x:
+          this.lastDirection === "right"
+            ? this.hitbox.position.x + this.hitbox.width
+            : this.hitbox.position.x - attackBoxWidth,
+        y: this.hitbox.position.y,
+      },
+      width: attackBoxWidth,
       height: 53,
     };
   }

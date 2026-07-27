@@ -82,8 +82,8 @@ class Sprite {
         this.currentFrame === this.frameRate - 1 &&
         !this.currentAnimation.isActive
       ) {
-        this.currentAnimation.onComplete();
         this.currentAnimation.isActive = true;
+        this.currentAnimation.onComplete();
       }
     }
   }

@@ -23,10 +23,16 @@ class Enemy extends Sprite {
     this.gravity = 1;
 
     this.collisionBlocks = collisionBlocks;
+
+    this.isDead = false;
   }
 
   update() {
     this.position.x += this.velocity.x;
+
+    if (this.isDead) {
+      this.velocity.x *= 0.8;
+    }
 
     this.updateHitbox();
 
@@ -55,6 +61,11 @@ class Enemy extends Sprite {
     this.loop = this.animations[name].loop;
     //this.scale = this.animations[name].scale || 1;
     this.currentAnimation = this.animations[name];
+
+    //Reset isActive
+    if (this.currentAnimation) {
+      this.currentAnimation.isActive = false;
+    }
   }
 
   updateHitbox() {
