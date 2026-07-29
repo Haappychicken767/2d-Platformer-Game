@@ -37,9 +37,26 @@ function createPig(xPos, yPos, collisionBlocks) {
         loop: false,
         imageSrc: "./img/03-Pig/Dead (34x28).png",
       },
+      run: {
+        frameRate: 6,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: "./img/03-Pig/Run (34x28).png",
+      },
+      attack: {
+        frameRate: 5,
+        frameBuffer: 6,
+        loop: false,
+        imageSrc: "./img/03-Pig/Attack (34x28).png",
+        //onComplete: () => {
+        //enemy.isAttacking = false;
+        //},
+      },
     },
   });
 }
+
+function createBomberPig(xPos, yPos, collisionBlocks) {}
 
 const player = new Player({
   imageSrc: "./img/king/idle.png",
@@ -94,6 +111,14 @@ const player = new Player({
       onComplete: () => {
         player.isAttacking = false;
       },
+    },
+
+    hit: {
+      frameRate: 2,
+      frameBuffer: 8,
+      loop: false,
+      imageSrc: "./img/king/Hit (78x58).png",
+      scale: 2,
     },
 
     /*jump: {
@@ -223,6 +248,8 @@ let levels = {
       player.position.x = 750;
       player.position.y = 100;
 
+      enemies = [];
+
       if (player.currentAnimation) {
         player.currentAnimation.isActive = false;
       }
@@ -294,7 +321,9 @@ function animate() {
   player.update();
 
   //Calling combat logic
-  handleCombat(player, enemies);
+  setupEnemyCombat(player, enemies);
+  handlePlayerCombat(player, enemies);
+  handleEnemyCombat(player, enemies);
 
   //Safely delete the enemies that are marked for deletion
   enemies = enemies.filter((enemy) => !enemy.markedForDeletion);

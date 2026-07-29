@@ -25,6 +25,8 @@ class Enemy extends Sprite {
     this.collisionBlocks = collisionBlocks;
 
     this.isDead = false;
+    this.isAttacking = false;
+    this.playerIsNear = false;
   }
 
   update() {
@@ -75,6 +77,16 @@ class Enemy extends Sprite {
         y: this.position.y + 16,
       },
       width: 40,
+      height: 40,
+    };
+
+    const attackBoxWidth = 50;
+    this.attackBox = {
+      position: {
+        x: this.hitbox.position.x,
+        y: this.hitbox.position.y,
+      },
+      width: attackBoxWidth,
       height: 40,
     };
   }
