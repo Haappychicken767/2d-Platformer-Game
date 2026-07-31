@@ -8,7 +8,7 @@ let doors;
 let enemies = [];
 
 function createPig(xPos, yPos, collisionBlocks) {
-  return new Enemy({
+  const enemy = new Enemy({
     collisionBlocks: collisionBlocks,
     imageSrc: "./img/03-Pig/Idle (34x28).png",
     frameRate: 11,
@@ -48,12 +48,15 @@ function createPig(xPos, yPos, collisionBlocks) {
         frameBuffer: 6,
         loop: false,
         imageSrc: "./img/03-Pig/Attack (34x28).png",
-        //onComplete: () => {
-        //enemy.isAttacking = false;
-        //},
       },
     },
   });
+
+  enemy.animations.attack.onComplete = () => {
+    enemy.isAttacking = false;
+  };
+
+  return enemy;
 }
 
 function createBomberPig(xPos, yPos, collisionBlocks) {}
@@ -119,6 +122,9 @@ const player = new Player({
       loop: false,
       imageSrc: "./img/king/Hit (78x58).png",
       scale: 2,
+      onComplete: () => {
+        player.isHit = false;
+      },
     },
 
     /*jump: {

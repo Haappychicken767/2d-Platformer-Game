@@ -17,6 +17,7 @@ class Player extends Sprite {
 
     this.isAttacking = false;
     this.attackCooldown = false;
+    this.isHit = false;
 
     this.collisionBlocks = collisionBlocks;
   }
@@ -47,7 +48,7 @@ class Player extends Sprite {
   }
 
   handleInput(keys) {
-    if (this.preventInput) return;
+    if (this.preventInput || this.isHit) return;
 
     //Smooth dash deceleration
     if (this.isAttacking) {

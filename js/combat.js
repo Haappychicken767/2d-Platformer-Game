@@ -36,7 +36,44 @@ function handlePlayerCombat(player, enemies) {
 
 function setupEnemyCombat(player, enemies) {
   enemies.forEach((enemy) => {
-    if (player.hitbox.position.x + 10 >= enemy.hitbox.position.x) {
+    if (enemy.isDead) return;
+
+    // absolute distance
+    const dx = player.hitbox.position.x - enemy.hitbox.position.x;
+    const dy = player.hitbox.position.y - enemy.hitbox.position.y;
+    const distanceX = Math.abs(dx);
+    const distanceY = Math.abs(dy);
+
+    // interact if player is on the same vertical level
+    if (distanceY < 70) {
+      if (distanceX < 60) {
+        enemy.velocity.x = 0;
+        if (!enemy.isAttacking) {
+          enemy.isAttacking = true;
+          enemy.switchSprite("attack");
+        }
+      } else if (distanceX < 400) {
+        // player in visual range
+        if (!enemy.isAttacking) {
+          enemy.switchSprite("run");
+          enemy.velocity.x = dx > 0 ? 2 : -2; // moving towards the player
+        }
+      } else {
+        // if player is too far away, enemy should idle
+        if (!enemy.isAttacking) {
+          enemy.velocity.x = 0;
+          enemy.switchSprite("idleLeft");
+        }
+      }
+    } else {
+      // player is not on the same vertical level, enemy does nothing
+      if (!enemy.isAttacking) {
+        enemy.velocity.x = 0;
+        enemy.switchSprite("idleLeft");
+      }
+    }
+
+    /*if (player.hitbox.position.x + 10 >= enemy.hitbox.position.x) {
       enemy.velocity.x = 0;
       enemy.isPlayerNear = true;
       enemy.isAttacking = true;
@@ -46,42 +83,34 @@ function setupEnemyCombat(player, enemies) {
       enemy.velocity.x = -1;
       //console.log("Player position: " + player.hitbox.position.x);
       //console.log("Enemy position: " + enemy.hitbox.position.x);
-    }
+    }*/
   });
 }
 
 function handleEnemyCombat(player, enemies) {
+  if (player.isHit) return;
+
   enemies.forEach((enemy) => {
-    if (!enemy.isAttacking) return;
+    if (!enemy.isAttacking || enemy.isDead) return;
 
-    if (enemy.isPlayerNear) {
-      console.log(
-        "First condition: " +
-          enemy.attackBox.position.x +
-          enemy.attackBox.width,
-      );
-      console.log("enemy hitbox position x: " + enemy.hitbox.position.x);
-      console.log(
-        "Second condition (attackbox y): " + enemy.attackBox.position.y,
-      );
-      console.log(
-        "Player hitbox y + height: " +
-          player.hitbox.position.y +
-          player.hitbox.height,
-      );
+    // 4-sided collision detection
+    if (
+      enemy.attackBox.position.x <=
+        player.hitbox.position.x + player.hitbox.width &&
+      enemy.attackBox.position.x + enemy.attackBox.width >=
+        player.hitbox.position.x &&
+      enemy.attackBox.position.y <=
+        player.hitbox.position.y + player.hitbox.height &&
+      enemy.attackBox.position.y + enemy.attackBox.height >=
+        player.hitbox.position.y
+    ) {
+      player.isHit = true;
+      player.switchSprite("hit");
 
-      if (
-        enemy.attackBox.position.x + enemy.attackBox.width >=
-          enemy.hitbox.position.x &&
-        enemy.attackBox.position.y <=
-          player.hitbox.position.y + player.hitbox.height
-      ) {
-        player.switchSprite("hit");
-
-        //player.velocity.x = -10;
-        //player.velocity.y = -7;
-        console.log("Player is hit");
-      }
+      // player knockback effect
+      const dx = player.hitbox.position.x - enemy.hitbox.position.x;
+      player.velocity.x = dx > 0 ? 8 : -8; // vertical push away from pig
+      player.velocity.y = -6; // small jump
     }
   });
 }

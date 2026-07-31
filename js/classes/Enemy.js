@@ -80,13 +80,12 @@ class Enemy extends Sprite {
       height: 40,
     };
 
-    const attackBoxWidth = 50;
     this.attackBox = {
       position: {
-        x: this.hitbox.position.x,
+        x: this.hitbox.position.x - 15,
         y: this.hitbox.position.y,
       },
-      width: attackBoxWidth,
+      width: this.hitbox.width + 30, // widening attackbox width
       height: 40,
     };
   }
