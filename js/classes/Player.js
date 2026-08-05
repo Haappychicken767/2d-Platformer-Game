@@ -48,9 +48,14 @@ class Player extends Sprite {
   }
 
   handleInput(keys) {
-    if (this.preventInput || this.isHit) return;
+    if (this.preventInput) return;
 
     //Smooth dash deceleration
+    if (this.isHit) {
+      this.velocity.x *= 0.85;
+      return;
+    }
+
     if (this.isAttacking) {
       this.velocity.x *= 0.85;
       return;

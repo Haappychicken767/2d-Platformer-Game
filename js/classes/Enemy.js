@@ -27,6 +27,7 @@ class Enemy extends Sprite {
     this.isDead = false;
     this.isAttacking = false;
     this.playerIsNear = false;
+    this.lastDirection = "left";
   }
 
   update() {
@@ -80,12 +81,16 @@ class Enemy extends Sprite {
       height: 40,
     };
 
+    const attackBoxWidth = 50;
     this.attackBox = {
       position: {
-        x: this.hitbox.position.x - 15,
+        x:
+          this.lastDirection === "right"
+            ? this.hitbox.position.x + this.hitbox.width
+            : this.hitbox.position.x - this.attackBoxWidth,
         y: this.hitbox.position.y,
       },
-      width: this.hitbox.width + 30, // widening attackbox width
+      width: attackBoxWidth,
       height: 40,
     };
   }

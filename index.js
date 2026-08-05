@@ -25,11 +25,23 @@ function createPig(xPos, yPos, collisionBlocks) {
         loop: true,
         imageSrc: "./img/03-Pig/Idle (34x28).png",
       },
+      idleRight: {
+        frameRate: 11,
+        frameBuffer: 2,
+        loop: true,
+        imageSrc: "./img/03-Pig/idleRight.png",
+      },
       hit: {
         frameRate: 2,
         frameBuffer: 16,
         loop: false,
         imageSrc: "./img/03-Pig/Hit (34x28).png",
+      },
+      hitRight: {
+        frameRate: 2,
+        frameBuffer: 16,
+        loop: false,
+        imageSrc: "./img/03-Pig/hitRight.png",
       },
       dead: {
         frameRate: 4,
@@ -37,11 +49,23 @@ function createPig(xPos, yPos, collisionBlocks) {
         loop: false,
         imageSrc: "./img/03-Pig/Dead (34x28).png",
       },
+      deadRight: {
+        frameRate: 4,
+        frameBuffer: 8,
+        loop: false,
+        imageSrc: "./img/03-Pig/deadRight.png",
+      },
       run: {
         frameRate: 6,
         frameBuffer: 4,
         loop: true,
         imageSrc: "./img/03-Pig/Run (34x28).png",
+      },
+      runRight: {
+        frameRate: 6,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: "./img/03-Pig/runRight.png",
       },
       attack: {
         frameRate: 5,
@@ -49,11 +73,23 @@ function createPig(xPos, yPos, collisionBlocks) {
         loop: false,
         imageSrc: "./img/03-Pig/Attack (34x28).png",
       },
+      attackRight: {
+        frameRate: 5,
+        frameBuffer: 6,
+        loop: false,
+        imageSrc: "./img/03-Pig/attackRight.png",
+      },
     },
   });
 
+  enemy.animations.attackRight.onComplete = () => {
+    enemy.isAttacking = false;
+    enemy.switchSprite("idlRight");
+  };
+
   enemy.animations.attack.onComplete = () => {
     enemy.isAttacking = false;
+    enemy.switchSprite("idleLeft");
   };
 
   return enemy;

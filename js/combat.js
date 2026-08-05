@@ -15,14 +15,16 @@ function handlePlayerCombat(player, enemies) {
         enemy.hitbox.position.y
     ) {
       enemy.isDead = true;
-      enemy.switchSprite("hit");
+      enemy.switchSprite(enemy.lastDirection === "right" ? "hitRight" : "hit");
 
       //Knockback effect when hit
       enemy.velocity.x = player.lastDirection === "left" ? -8 : 8;
       enemy.velocity.y = -6;
 
       enemy.currentAnimation.onComplete = () => {
-        enemy.switchSprite("dead");
+        enemy.switchSprite(
+          enemy.lastDirection === "right" ? "deadRight" : "dead",
+        );
 
         enemy.currentAnimation.onComplete = () => {
           setTimeout(() => {
@@ -44,32 +46,42 @@ function setupEnemyCombat(player, enemies) {
     const distanceX = Math.abs(dx);
     const distanceY = Math.abs(dy);
 
+    enemy.lastDirection = dx > 0 ? "right" : "left";
+
     // interact if player is on the same vertical level
     if (distanceY < 70) {
       if (distanceX < 60) {
         enemy.velocity.x = 0;
         if (!enemy.isAttacking) {
           enemy.isAttacking = true;
-          enemy.switchSprite("attack");
+          enemy.switchSprite(
+            enemy.lastDirection === "right" ? "attackRight" : "attack",
+          );
         }
       } else if (distanceX < 400) {
         // player in visual range
         if (!enemy.isAttacking) {
-          enemy.switchSprite("run");
+          enemy.switchSprite(
+            enemy.lastDirection === "right" ? "runRight" : "run",
+          );
           enemy.velocity.x = dx > 0 ? 2 : -2; // moving towards the player
         }
       } else {
         // if player is too far away, enemy should idle
         if (!enemy.isAttacking) {
           enemy.velocity.x = 0;
-          enemy.switchSprite("idleLeft");
+          enemy.switchSprite(
+            enemy.lastDirection === "right" ? "idleRight" : "idleLeft",
+          );
         }
       }
     } else {
       // player is not on the same vertical level, enemy does nothing
       if (!enemy.isAttacking) {
         enemy.velocity.x = 0;
-        enemy.switchSprite("idleLeft");
+        enemy.switchSprite(
+          enemy.lastDirection === "right" ? "idleRight" : "idleLeft",
+        );
       }
     }
 
@@ -105,11 +117,12 @@ function handleEnemyCombat(player, enemies) {
         player.hitbox.position.y
     ) {
       player.isHit = true;
+      player.isAttacking = false;
       player.switchSprite("hit");
 
       // player knockback effect
       const dx = player.hitbox.position.x - enemy.hitbox.position.x;
-      player.velocity.x = dx > 0 ? 8 : -8; // vertical push away from pig
+      player.velocity.x = dx > 0 ? 12 : -12; // vertical push away from pig
       player.velocity.y = -6; // small jump
     }
   });
