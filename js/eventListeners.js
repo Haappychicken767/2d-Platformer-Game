@@ -26,7 +26,13 @@ window.addEventListener("keydown", (event) => {
       break;
 
     case "h":
-      if (!player.hitbox || player.isAttacking || player.attackCooldown) return;
+      if (
+        !player.hitbox ||
+        player.isAttacking ||
+        player.attackCooldown ||
+        player.isHit
+      )
+        return;
 
       player.isAttacking = true;
       player.attackCooldown = true;
@@ -34,7 +40,7 @@ window.addEventListener("keydown", (event) => {
       //Resets the cooldown in 1.5 secs
       setTimeout(() => {
         player.attackCooldown = false;
-      }, 1500);
+      }, 1000);
 
       if (player.lastDirection === "left") {
         player.switchSprite("attackLeft");

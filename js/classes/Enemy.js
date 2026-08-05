@@ -28,6 +28,7 @@ class Enemy extends Sprite {
     this.isAttacking = false;
     this.playerIsNear = false;
     this.lastDirection = "left";
+    this.hasHitPlayer = false;
   }
 
   update() {
@@ -56,7 +57,16 @@ class Enemy extends Sprite {
   }
 
   switchSprite(name) {
-    if (this.image === this.animations[name].image) return;
+    if (this.image === this.animations[name].image) {
+      if (
+        !this.animations[name].loop &&
+        this.currentFrame === this.frameRate - 1
+      ) {
+        this.currentFrame = 0;
+        if (this.animations[name]) this.animations[name].isActive = false;
+      }
+      return;
+    }
     this.currentFrame = 0;
     this.image = this.animations[name].image;
     this.frameRate = this.animations[name].frameRate;
@@ -81,13 +91,13 @@ class Enemy extends Sprite {
       height: 40,
     };
 
-    const attackBoxWidth = 50;
+    const attackBoxWidth = 60;
     this.attackBox = {
       position: {
         x:
           this.lastDirection === "right"
-            ? this.hitbox.position.x + this.hitbox.width
-            : this.hitbox.position.x - this.attackBoxWidth,
+            ? this.hitbox.position.x + this.hitbox.width - 10
+            : this.hitbox.position.x - attackBoxWidth + 10,
         y: this.hitbox.position.y,
       },
       width: attackBoxWidth,

@@ -95,7 +95,16 @@ class Player extends Sprite {
   }
 
   switchSprite(name) {
-    if (this.image === this.animations[name].image) return;
+    if (this.image === this.animations[name].image) {
+      if (
+        !this.animations[name].loop &&
+        this.currentFrame === this.frameRate - 1
+      ) {
+        this.currentFrame = 0;
+        if (this.animations[name]) this.animations[name].isActive = false;
+      }
+      return;
+    }
     this.currentFrame = 0;
     this.image = this.animations[name].image;
     this.frameRate = this.animations[name].frameRate;

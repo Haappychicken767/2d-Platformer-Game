@@ -84,7 +84,7 @@ function createPig(xPos, yPos, collisionBlocks) {
 
   enemy.animations.attackRight.onComplete = () => {
     enemy.isAttacking = false;
-    enemy.switchSprite("idlRight");
+    enemy.switchSprite("idleRight");
   };
 
   enemy.animations.attack.onComplete = () => {
@@ -160,6 +160,9 @@ const player = new Player({
       scale: 2,
       onComplete: () => {
         player.isHit = false;
+        player.switchSprite(
+          player.lastDirection === "left" ? "idleLeft" : "idleRight",
+        );
       },
     },
 

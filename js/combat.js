@@ -50,10 +50,11 @@ function setupEnemyCombat(player, enemies) {
 
     // interact if player is on the same vertical level
     if (distanceY < 70) {
-      if (distanceX < 60) {
+      if (distanceX < 50) {
         enemy.velocity.x = 0;
         if (!enemy.isAttacking) {
           enemy.isAttacking = true;
+          enemy.hasHitPlayer = false;
           enemy.switchSprite(
             enemy.lastDirection === "right" ? "attackRight" : "attack",
           );
@@ -64,7 +65,7 @@ function setupEnemyCombat(player, enemies) {
           enemy.switchSprite(
             enemy.lastDirection === "right" ? "runRight" : "run",
           );
-          enemy.velocity.x = dx > 0 ? 2 : -2; // moving towards the player
+          enemy.velocity.x = dx > 0 ? 2.5 : -2.5; // moving towards the player
         }
       } else {
         // if player is too far away, enemy should idle
@@ -103,7 +104,9 @@ function handleEnemyCombat(player, enemies) {
   if (player.isHit) return;
 
   enemies.forEach((enemy) => {
-    if (!enemy.isAttacking || enemy.isDead) return;
+    if (!enemy.isAttacking || enemy.isDead || enemy.hasHitPlayer) return;
+
+    if (enemy.currentFrame < 2) return;
 
     // 4-sided collision detection
     if (
@@ -118,6 +121,7 @@ function handleEnemyCombat(player, enemies) {
     ) {
       player.isHit = true;
       player.isAttacking = false;
+      enemy.hasHitPlayer = true;
       player.switchSprite("hit");
 
       // player knockback effect
