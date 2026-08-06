@@ -52,12 +52,16 @@ function setupEnemyCombat(player, enemies) {
     if (distanceY < 70) {
       if (distanceX < 50) {
         enemy.velocity.x = 0;
-        if (!enemy.isAttacking) {
+        if (!enemy.isAttacking && !enemy.attackCooldown) {
           enemy.isAttacking = true;
           enemy.hasHitPlayer = false;
           enemy.switchSprite(
             enemy.lastDirection === "right" ? "attackRight" : "attack",
           );
+          enemy.attackCooldown = true;
+          setTimeout(() => {
+            enemy.attackCooldown = false;
+          }, 1500);
         }
       } else if (distanceX < 400) {
         // player in visual range

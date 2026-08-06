@@ -29,6 +29,7 @@ class Enemy extends Sprite {
     this.playerIsNear = false;
     this.lastDirection = "left";
     this.hasHitPlayer = false;
+    this.attackCooldown = false;
   }
 
   update() {
