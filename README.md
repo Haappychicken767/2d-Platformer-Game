@@ -1,4 +1,17 @@
-# 2d-Platformer-Game
-It is a 2d platformer game that I am creating using JavaScript and HTML Canvas on VS Code.
-It is a multi-room game, where the player/character can walk through a door and travel to another room/map.
-It has normal game-physics, where the character can move around and jump, controlled by keyboard controls.
+# 2d-Platformer-Game, Kings-and-Pigs!
+
+What is the game?
+ - It is a 2d platformer game that I am creating using JavaScript and HTML Canvas on VS Code.
+ - It is created using the Kings and Pigs sprite pack from itch.io, made by Pixel Frog.
+
+Attributes of the game
+ - It is a multi-room game, where the player/character can walk through a door and travel to another room/map.
+ - It has collision detection, so that the player collides with blocks around the map, and checks for collisions between the player and the enemy.
+ - It has game-physics such as implemented gravity when the player falls.
+ - The player also has controls and can move around the entire map.
+ - There are enemies (pigs) around the map that run to and attack the player when the player is nearby.
+ - The player can attack back at the pigs, hitting and killing them if the attack lands.
+
+Why I made this game?
+ - I thought it would be fun to make a 2d platformer game that I can play on the web, using JavaScript and HTML.
+
