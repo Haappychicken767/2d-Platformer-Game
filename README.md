@@ -15,3 +15,9 @@ Attributes of the game
 Why I made this game?
  - I thought it would be fun to make a 2d platformer game that I can play on the web, using JavaScript and HTML.
 
+The controls:
+ - W: to jump
+ - A: to move to the left
+ - D: to move to the right
+ - S: to go through doors
+ - H: to do a dash attack
