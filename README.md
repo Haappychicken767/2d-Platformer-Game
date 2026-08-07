@@ -21,3 +21,7 @@ The controls:
  - D: to move to the right
  - S: to go through doors
  - H: to do a dash attack
+
+Game Setup
+ - To set up this game, all you need to do is download the files and run index.html in your browser.
+ - You can also just use the demo deployment link in Github pages, to run this game online.
